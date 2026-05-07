@@ -179,13 +179,6 @@ const RegionPage = () => {
 
     let geometry = editingRegion ? editingRegion.geometry : null;
     if (points.length >= 3) {
-        // Validation : Vérifier si tous les points sont dans la Wilaya de Bouira
-        const isOutside = points.some(p => !isPointInPolygon(p, BOUIRA_WILAYA_GEOM));
-        if (isOutside) {
-            toast.error('Erreur : Tous les points de la zone doivent être à l\'intérieur de la Wilaya de Bouira.');
-            return;
-        }
-
         const first = points[0];
         const last = points[points.length - 1];
         if (first[0] === last[0] && first[1] === last[1]) {
