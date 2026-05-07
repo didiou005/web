@@ -326,25 +326,11 @@ app.get(
 
     try {
       const query = `
-        SELECT
-          c.id,
-          c.code,
-          c.created_at,
-          c.updated_at,
-          c.waste_type,
-          c.complaint_type,
-          com.name AS commune_name,
-          c.address_text,
-          c.comment AS description,
-          c.status,
-          ST_X(c.gps_location::geometry) AS lng,
-          ST_Y(c.gps_location::geometry) AS lat
-
+      SELECT
+        c.*,
+        ST_X(c.gps_location::geometry) AS lng,
+        ST_Y(c.gps_location::geometry) AS lat
         FROM complaints c
-
-        LEFT JOIN communes com
-        ON c.commune_id = com.id
-
         WHERE c.code = $1
       `;
 
