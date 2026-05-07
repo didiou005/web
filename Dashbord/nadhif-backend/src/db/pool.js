@@ -1,30 +1,39 @@
 // src/db/pool.js
+
 const { Pool } = require('pg');
 require('dotenv').config();
 
 let pool = null;
 
 async function initPool() {
-  // Si on est en développement, crée le tunnel SSH
-  if (process.env.NODE_ENV === 'development' && process.env.SSH_HOST) {
-    const { createTunnel } = require('./sshTunnel');
-    await createTunnel();
-  }
 
   pool = new Pool({
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT),
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    connectionString: process.env.DATABASE_URL,
+
+    ssl: {
+      rejectUnauthorized: false,
+    },
+
     connectionTimeoutMillis: 10000,
-    max: 10
+
+    idleTimeoutMillis: 30000,
+
+    max: 10,
   });
 
-  // Test
+  // Test connexion
   const client = await pool.connect();
-  const result = await client.query('SELECT COUNT(*) FROM complaints');
-  console.log('✅ PostgreSQL connecté -', result.rows[0].count, 'plaintes');
+
+  const result = await client.query(
+    'SELECT COUNT(*) FROM complaints'
+  );
+
+  console.log(
+    '✅ PostgreSQL connecté -',
+    result.rows[0].count,
+    'plaintes'
+  );
+
   client.release();
 
   return pool;
