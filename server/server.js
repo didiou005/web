@@ -10,6 +10,15 @@ require("dotenv").config();
 const app = express();
 
 
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:");
+  console.error(err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED REJECTION:");
+  console.error(err);
+});
 
 /* =========================================================
    DATABASE
@@ -166,7 +175,11 @@ app.post(
   upload.array("photos", 5),
 
   async (req, res) => {
+    console.log("📥 POST /api/complaints reached");
+
     const client = await pool.connect();
+
+    console.log("✅ Database client connected");
 
     try {
       await client.query("BEGIN");
