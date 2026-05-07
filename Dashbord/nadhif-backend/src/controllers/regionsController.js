@@ -4,7 +4,12 @@ const logsController = require('./logsController');
 const BOUIRA_BOUNDARY = require('../utils/bouiraBoundary');
 
 // Prepare the Bouira boundary as a WKT Polygon (lng lat format)
-const bouiraWktCoords = BOUIRA_BOUNDARY.map(c => `${c[1]} ${c[0]}`).join(', ');
+let coords = [...BOUIRA_BOUNDARY];
+// PostGIS requires polygons to be closed (first and last point must be identical)
+if (coords[0][0] !== coords[coords.length - 1][0] || coords[0][1] !== coords[coords.length - 1][1]) {
+  coords.push(coords[0]);
+}
+const bouiraWktCoords = coords.map(c => `${c[1]} ${c[0]}`).join(', ');
 const bouiraWKT = `POLYGON((${bouiraWktCoords}))`;
 
 exports.getRegions = async (req, res) => {
