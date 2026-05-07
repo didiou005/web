@@ -21,7 +21,7 @@ export default defineConfig({
       }
     }
   },
-  base: '/admin/',
+  base: '/',
   build: {
     outDir: 'dist',
     sourcemap: true,
