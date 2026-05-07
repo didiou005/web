@@ -19,7 +19,7 @@ import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-    <BrowserRouter basename="/admin">
+    <BrowserRouter>
       <Toaster 
         position="top-right" 
         reverseOrder={false}
