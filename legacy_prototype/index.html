@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signaler une plainte - Nadhif Bouira</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Leaflet for Map -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="container">
+        <div class="logo">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+              fill="#00C853"
+              fill-opacity="0.2"
+            />
+            <path
+              d="M7 16C7 16 9 11 12 8C15 11 17 16 17 16"
+              stroke="#00C853"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 18V8"
+              stroke="#00C853"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <h1>Nadhif Bouira</h1>
+        </div>
+        <p class="subtitle">Gestion des déchets de la Wilaya</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Nouvelle Plainte</h2>
+          <p>Signalez un problème de collecte ou une décharge sauvage.</p>
+        </div>
+
+        <form id="complaintForm">
+          <!-- Section 1: Localisation -->
+          <div class="form-section">
+            <h3><span class="step-icon">1</span> Localisation</h3>
+
+            <div class="form-group">
+              <label for="commune"
+                >Commune <span class="required">*</span></label
+              >
+              <select id="commune" name="commune" required>
+                <option value="">Sélectionnez votre commune</option>
+                <option value="Bouira">Bouira</option>
+                <option value="Lakhdaria">Lakhdaria</option>
+                <option value="Sour El Ghozlane">Sour El Ghozlane</option>
+                <option value="M'Chedallah">M'Chedallah</option>
+                <option value="Ain Bessem">Ain Bessem</option>
+                <option value="Bir Ghbalou">Bir Ghbalou</option>
+                <option value="Bordj Okhriss">Bordj Okhriss</option>
+                <option value="Souk El Khemis">Souk El Khemis</option>
+                <option value="El Hachimia">El Hachimia</option>
+                <option value="Hadjera Zerga">Hadjera Zerga</option>
+                <option value="Bechloul">Bechloul</option>
+                <option value="Haizer">Haizer</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="adresse">Adresse (Optionnel)</label>
+              <input
+                type="text"
+                id="adresse"
+                name="adresse"
+                placeholder="Quartier, rue, repère..."
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Position GPS <span class="required">*</span></label>
+              <div class="gps-control">
+                <button type="button" id="locateBtn" class="btn-secondary">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon
+                      points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"
+                    ></polygon>
+                  </svg>
+                  Ma position actuelle
+                </button>
+                <span id="gpsStatus" class="status-text"
+                  >Position non définie</span
+                >
+              </div>
+              <div id="map" class="map-container"></div>
+              <input type="hidden" id="lat" name="lat" />
+              <input type="hidden" id="lng" name="lng" />
+            </div>
+          </div>
+
+          <!-- Section 2: Détails -->
+          <div class="form-section">
+            <h3><span class="step-icon">2</span> Détails du problème</h3>
+
+            <div class="form-group">
+              <label>Type de déchets <span class="required">*</span></label>
+              <div class="radio-grid">
+                <label class="radio-card selected">
+                  <input
+                    type="radio"
+                    name="waste_type"
+                    value="menager"
+                    checked
+                  />
+                  <div class="radio-content">
+                    <span class="emoji">🗑️</span>
+                    <span class="label">Déchets Ménagers</span>
+                  </div>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="waste_type" value="inerte" />
+                  <div class="radio-content">
+                    <span class="emoji">🧱</span>
+                    <span class="label">Déchets Inertes (Gravats)</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group" id="complaintTypeGroup">
+              <label for="complaint_type"
+                >Type de plainte <span class="required">*</span></label
+              >
+              <select id="complaint_type" name="complaint_type">
+                <option value="">Sélectionnez le type de problème</option>
+                <option value="absence_bac">Absence de bac</option>
+                <option value="surplus_poubelles">Surplus de poubelles</option>
+                <option value="negligence">Négligence de collecte</option>
+                <option value="decharge_sauvage">Décharge sauvage</option>
+              </select>
+              <p class="hint">Requis pour les déchets ménagers.</p>
+            </div>
+
+            <div class="form-group">
+              <label for="comment">Commentaire (Max 500 car.)</label>
+              <textarea
+                id="comment"
+                name="comment"
+                rows="3"
+                maxlength="500"
+                placeholder="Décrivez la situation..."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Section 3: Photos -->
+          <div class="form-section">
+            <h3><span class="step-icon">3</span> Photos</h3>
+
+            <div class="form-group">
+              <label>Preuves photo (Max 5 photos)</label>
+              <div class="file-upload-area" id="dropZone">
+                <input
+                  type="file"
+                  id="photos"
+                  name="photos"
+                  multiple
+                  accept="image/*"
+                  class="file-input"
+                />
+                <div class="upload-content">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <p>Cliquez ou glissez vos photos ici</p>
+                </div>
+              </div>
+              <div id="previewArea" class="preview-grid"></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              Envoyer la plainte
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

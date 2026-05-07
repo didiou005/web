@@ -1,0 +1,202 @@
+/* Dark Mode CSS Fixes */
+
+/* Table Hover - subtle light overlay */
+.table-row:hover {
+  background-color: var(--gray-50) !important;
+}
+
+[data-theme='dark'] .table-row:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Modal Styles                                                               */
+/* -------------------------------------------------------------------------- */
+
+/* Modal Container */
+.modal-content {
+  background-color: var(--white);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+[data-theme='dark'] .modal-content {
+  background-color: #1e293b !important; /* Dark Slate */
+  border-color: #334155 !important;
+  color: #ffffff !important; /* Ensure default text is white */
+}
+
+/* Modal Header */
+[data-theme='dark'] .modal-header {
+  background-color: #1e293b !important;
+  border-bottom: 1px solid #334155 !important;
+  color: #ffffff !important;
+}
+
+/* Modal Title & Section Titles - Force White */
+[data-theme='dark'] .modal-title,
+[data-theme='dark'] .section-title,
+[data-theme='dark'] .form-label,
+[data-theme='dark'] h2, 
+[data-theme='dark'] h3 {
+  color: #ffffff !important;
+}
+
+/* Modal Close Button */
+[data-theme='dark'] .close-modal-btn {
+  color: #94a3b8;
+  background: transparent;
+}
+[data-theme='dark'] .close-modal-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Form Elements within Modals                                                */
+/* -------------------------------------------------------------------------- */
+
+/* Input/Select/Textarea in Dark Mode */
+[data-theme='dark'] .form-input,
+[data-theme='dark'] input, 
+[data-theme='dark'] select, 
+[data-theme='dark'] textarea {
+  background-color: #0f172a !important; /* Darker than modal bg */
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1;
+}
+
+/* Member Row Block (Teams Modal) */
+[data-theme='dark'] .member-row {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+/* Member Inputs (Specific override) */
+[data-theme='dark'] .member-input {
+  background-color: #1e293b !important;
+  border-color: #475569 !important;
+  color: #ffffff !important;
+}
+
+/* Special case for 'Nouveau membre' selected state */
+[data-theme='dark'] .member-input[style*="background: #f0fdf4"] {
+   background-color: rgba(22, 163, 74, 0.2) !important; 
+   color: #4ade80 !important;
+   border-color: rgba(22, 163, 74, 0.4) !important;
+}
+
+/* Dropdowns */
+[data-theme='dark'] div[style*="position: absolute"][style*="zIndex: 100"] {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+}
+
+.icon-box {
+    background-color: var(--gray-200);
+}
+[data-theme='dark'] .icon-box {
+    background-color: #334155;
+    color: #cbd5e1;
+}
+
+/* Light mode selected states (simulating original inline styles) */
+.dropdown-item.active {
+    background-color: #f3f4f6;
+    font-weight: 500;
+}
+.dropdown-item.selected {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    font-weight: 600;
+}
+
+/* Dark mode overrides */
+[data-theme='dark'] .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme='dark'] .dropdown-item.active {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+[data-theme='dark'] .dropdown-item.selected {
+    background-color: rgba(22, 163, 74, 0.2) !important;
+    color: #4ade80 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Buttons & Actions                                                          */
+/* -------------------------------------------------------------------------- */
+
+/* Edit Button */
+.action-btn.edit {
+  background-color: rgba(240, 249, 255, 1);
+  border-color: #bae6fd;
+  color: #0369a1;
+}
+[data-theme='dark'] .action-btn.edit {
+  background-color: rgba(14, 165, 233, 0.15);
+  border-color: rgba(14, 165, 233, 0.3);
+  color: #38bdf8;
+}
+
+/* Delete Button */
+.action-btn.delete {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+[data-theme='dark'] .action-btn.delete {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+/* Delete Icon Wrapper (Modal) */
+.delete-icon-wrapper {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+[data-theme='dark'] .delete-icon-wrapper {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Delete Member Button (Trash icon in forms) */
+[data-theme='dark'] .delete-member-btn {
+  color: #f87171 !important;
+}
+[data-theme='dark'] .delete-member-btn:hover {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Other Components                                                           */
+/* -------------------------------------------------------------------------- */
+
+/* View Modal Detail Blocks */
+.detail-block {
+  background-color: var(--gray-50);
+}
+[data-theme='dark'] .detail-block {
+  background-color: #0f172a !important;
+  border: 1px solid #334155;
+}
+
+/* Avatar Backgrounds */
+[data-theme='dark'] .modal-content div[class*="bg-[var(--gray-100)]"] {
+    background-color: #334155 !important;
+}
