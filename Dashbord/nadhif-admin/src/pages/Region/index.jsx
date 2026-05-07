@@ -311,7 +311,7 @@ const RegionPage = () => {
               <button 
                 onClick={handleOpenModal}
                 disabled={!isClosed}
-                style={{ padding: '10px 20px', borderRadius: '8px', background: !isClosed ? '#b2b2b2' : '#21831eff', color: 'white', border: 'none', fontWeight: 'bold', cursor: !isClosed ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+                style={{ padding: '10px 20px', borderRadius: '8px', background: !isClosed ? '#21831eff':'#b2b2b2'  , color: 'white', border: 'none', fontWeight: 'bold', cursor: !isClosed ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
               >
                 <Save size={18} /> {editingRegion ? 'Mettre à jour' : 'Enregistrer'}
               </button>
