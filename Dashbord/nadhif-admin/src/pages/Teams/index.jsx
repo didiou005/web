@@ -189,6 +189,9 @@ const Teams = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingTeam, setEditingTeam] = useState(null);
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userRole = user.role || 'admin';
+
   // Form State
   const [formData, setFormData] = useState({
     name: '',
@@ -470,6 +473,7 @@ const Teams = () => {
             className="search-input"
           />
         </div>
+        {userRole === 'super_admin' && (
         <button 
           onClick={() => handleOpenModal()} 
           className="add-team-btn"
@@ -492,6 +496,7 @@ const Teams = () => {
           <Plus size={20} strokeWidth={3} />
           <span>Nouvelle Équipe</span>
         </button>
+        )}
       </div>
 
       {/* Teams Grid / Table */}
@@ -577,20 +582,24 @@ const Teams = () => {
                   </td>
                   <td style={{ padding: '20px 24px', borderBottom: '1px solid var(--border-color)', textAlign: 'right' }}>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handleOpenModal(team); }}
-                        className="action-btn edit"
-                        title="Modifier"
-                      >
-                        <Edit2 size={18} />
-                      </button>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handleDeleteTeam(team.id); }}
-                        className="action-btn delete"
-                        title="Supprimer"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                      {userRole === 'super_admin' && (
+                        <>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleOpenModal(team); }}
+                            className="action-btn edit"
+                            title="Modifier"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleDeleteTeam(team.id); }}
+                            className="action-btn delete"
+                            title="Supprimer"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -681,17 +690,18 @@ const Teams = () => {
                 <button 
                   onClick={() => setViewModal(false)}
                   className="cancel-btn"
-                  
                 >
                   Fermer
                 </button>
-                <button 
-                  onClick={() => handleOpenModal(viewTeam)}
-                  className="submit-btn"
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-                >
-                  <Edit2 size={16} /> Modifier
-                </button>
+                {userRole === 'super_admin' && (
+                  <button 
+                    onClick={() => handleOpenModal(viewTeam)}
+                    className="submit-btn"
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <Edit2 size={16} /> Modifier
+                  </button>
+                )}
               </div>
             </div>
           </div>

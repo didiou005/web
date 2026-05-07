@@ -902,7 +902,17 @@ function ComplaintForm() {
                         </div>
 
                         <div className="form-actions" style={{ display: 'flex', gap: '15px' }}>
-                            <button type="submit" className="btn-primary" style={{ flex: 2 }} disabled={isSubmitting || isCompressing}>
+                            <button 
+                                type="submit" 
+                                className="btn-primary" 
+                                style={{ 
+                                    flex: 2, 
+                                    opacity: (!position || (formData.waste_type === 'menager' && !formData.complaint_type)) ? 0.5 : 1,
+                                    cursor: (!position || (formData.waste_type === 'menager' && !formData.complaint_type)) ? 'not-allowed' : 'pointer',
+                                    filter: (!position || (formData.waste_type === 'menager' && !formData.complaint_type)) ? 'grayscale(100%)' : 'none'
+                                }} 
+                                disabled={isSubmitting || isCompressing || !position || (formData.waste_type === 'menager' && !formData.complaint_type)}
+                            >
                                 {isCompressing 
                                     ? `Traitement...` 
                                     : (isSubmitting ? t.form.sending : t.form.btn_submit)

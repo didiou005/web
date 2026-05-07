@@ -48,8 +48,8 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, closeMobileMenu }) 
       <nav className="sidebar-nav">
         {sidebarConfig
           .filter(section => {
-            // Restriction : seul le super_admin voit la gestion des admins
-            if (section.id === 'admins') return userRole === 'super_admin';
+            // Restriction : seul le super_admin voit la gestion des admins et le journal
+            if (section.id === 'admins' || section.id === 'logs') return userRole === 'super_admin';
             return true;
           })
           .map(section => (

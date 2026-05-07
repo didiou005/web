@@ -31,6 +31,9 @@ const Employees = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
   
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userRole = user.role || 'admin';
+  
   // Form State
   const [formData, setFormData] = useState({
     full_name: '',
@@ -229,6 +232,7 @@ const Employees = () => {
             }}
           />
         </div>
+        {userRole === 'super_admin' && (
         <button 
           onClick={() => handleOpenModal()} 
           className="add-btn"
@@ -251,6 +255,7 @@ const Employees = () => {
           <Plus size={20} strokeWidth={3} />
           <span>Nouvel Employé</span>
         </button>
+        )}
       </div>
 
       {/* Employees Table */}
@@ -328,20 +333,24 @@ const Employees = () => {
                   </td>
                   <td style={{ padding: '20px 24px', borderBottom: '1px solid var(--border-color)', textAlign: 'right' }}>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handleOpenModal(emp); }}
-                        className="action-btn edit"
-                        title="Modifier"
-                      >
-                        <Edit2 size={18} />
-                      </button>
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); handleDeleteEmployee(emp.id); }}
-                        className="action-btn delete"
-                        title="Supprimer"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                      {userRole === 'super_admin' && (
+                        <>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleOpenModal(emp); }}
+                            className="action-btn edit"
+                            title="Modifier"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleDeleteEmployee(emp.id); }}
+                            className="action-btn delete"
+                            title="Supprimer"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -409,13 +418,15 @@ const Employees = () => {
                 >
                   Fermer
                 </button>
-                <button 
-                  onClick={() => handleOpenModal(viewEmployee)}
-                  className="submit-btn"
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-                >
-                  <Edit2 size={16} /> Modifier
-                </button>
+                {userRole === 'super_admin' && (
+                  <button 
+                    onClick={() => handleOpenModal(viewEmployee)}
+                    className="submit-btn"
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <Edit2 size={16} /> Modifier
+                  </button>
+                )}
               </div>
             </div>
           </div>

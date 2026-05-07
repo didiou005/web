@@ -221,10 +221,21 @@ INSERT INTO admin_users (
   function,
   is_active
 )
+DELETE FROM admin_users
+WHERE email = 'admin@nadhif.com';
+
+INSERT INTO admin_users (
+  email,
+  full_name,
+  password_hash,
+  role,
+  function,
+  is_active
+)
 VALUES (
   'admin@nadhif.com',
   'Super Admin',
-  '$2b$10$8U0D5A0v0A8L2uGkN3wN6eP0h1d8N5r4Q7xK1mYcJQ1Y6bN3X2Y5S',
+  '$2b$12$qhCYk9rxlU6CN7H8gvZpG.vrjbf2n6A9j8dL8j5cBxl9caFWqdV6a',
   'super_admin',
   'Administrateur Principal',
   TRUE

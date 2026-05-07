@@ -21,7 +21,14 @@ import {
 import { logsService } from '../../services/api';
 import toast from 'react-hot-toast';
 
+import { Navigate } from 'react-router-dom';
+
 const LogsPage = () => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (user.role !== 'super_admin') {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
