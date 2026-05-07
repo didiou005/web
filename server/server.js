@@ -122,10 +122,22 @@ app.get("/api/communes", async (req, res) => {
     res.json(result.rows);
 
   } catch (error) {
-    console.error(
-      "❌ Erreur récupération communes:",
-      error
-    );
+    console.error("❌ FULL ERROR:");
+console.error(error);
+console.error(error.message);
+console.error(error.stack);
+
+if (error.detail) {
+  console.error("DETAIL:", error.detail);
+}
+
+if (error.constraint) {
+  console.error("CONSTRAINT:", error.constraint);
+}
+
+if (error.code) {
+  console.error("PG CODE:", error.code);
+}
 
     res.status(500).json({
       success: false,
