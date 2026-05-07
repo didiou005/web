@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
@@ -135,20 +135,8 @@ const FollowUp = () => {
       `${API_URL}/api/complaints/${code}`
     );
 
-      // Si la plainte n'existe pas (404)
-      if (response.status === 404) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
-
-      // Si erreur serveur
-      if (!response.ok) {
-        throw new Error('Une erreur serveur s\'est produite. Veuillez réessayer plus tard.');
-      }
-
       // Récupération des données
-      const res = await response.json();
+      const res = response.data;
       // Handle both { success: true, data: {...} } AND the object directly 
       const data = res.data || res;
       
@@ -171,7 +159,11 @@ const FollowUp = () => {
       addToHistory(formattedData.code);
     } catch (err) {
       console.error('Erreur lors de la recherche:', err);
-      setError(err.message || 'Une erreur est survenue lors de la recherche.');
+      if (err.response && err.response.status === 404) {
+        setNotFound(true);
+      } else {
+        setError(err.message || 'Une erreur est survenue lors de la recherche.');
+      }
     } finally {
       setLoading(false);
     }
