@@ -6,9 +6,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors({
-  origin: [
-    'https://web-ekfg.vercel.app',
-  ],
+  origin: true,
 
   methods: [
     'GET',
