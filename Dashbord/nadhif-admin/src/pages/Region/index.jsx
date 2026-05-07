@@ -680,7 +680,7 @@ const RegionPage = () => {
               <button 
                 onClick={saveRegion}
                 disabled={loading}
-                style={{ padding: '12px 28px', borderRadius: '12px', background: '#0f172a', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
+                style={{ padding: '12px 28px', borderRadius: '12px', background: '#21831eff', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
               >
                 {loading ? 'Traitement...' : editingRegion ? 'Mettre à jour' : 'Créer la zone'}
               </button>
