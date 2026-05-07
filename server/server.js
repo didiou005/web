@@ -301,10 +301,10 @@ app.post(
     } catch (error) {
       await client.query("ROLLBACK");
 
-      console.error(
-        "❌ Erreur création plainte:",
-        error
-      );
+      console.error("❌ FULL ERROR:");
+        console.error(error);
+        console.error(error.message);
+        console.error(error.stack);
 
       res.status(500).json({
         success: false,
