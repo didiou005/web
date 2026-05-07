@@ -243,7 +243,7 @@ const Complaints = () => {
             id, 
             currentStatus: status, 
             x: rect.left, 
-            y: rect.bottom + window.scrollY 
+            y: rect.bottom
         });
     };
 
@@ -653,9 +653,9 @@ const Complaints = () => {
             onClick={() => setActiveStatusMenu(null)}
           />
           <div style={{
-            position: 'absolute',
+            position: 'fixed',
             top: `${activeStatusMenu.y + 5}px`,
-            left: `${activeStatusMenu.x}px`,
+            left: `${Math.min(activeStatusMenu.x, window.innerWidth - 170)}px`,
             backgroundColor: 'var(--bg-secondary)',
             borderRadius: '12px',
             boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)',
