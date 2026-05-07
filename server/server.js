@@ -172,8 +172,8 @@ app.get("/api/communes", async (req, res) => {
 
 app.post(
   "/api/complaints",
-  upload.array("photos", 5),
-
+  //upload.array("photos", 5),
+  (req, res, next) => next(),
   async (req, res) => {
     console.log("📥 POST /api/complaints reached");
 
