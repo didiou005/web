@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Filter, Search, ChevronLeft, ChevronRight, Eye, AlertCircle, CheckCircle, Clock, Download } from 'lucide-react';
 import { complaintsService, regionsService } from '../../services/api';
 import ComplaintDetailsModal from './ComplaintDetailsModal';
@@ -646,10 +647,10 @@ const Complaints = () => {
         onUpdate={loadComplaints}
       />
 
-      {activeStatusMenu && (
+      {activeStatusMenu && createPortal(
         <>
           <div 
-            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001 }} 
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99998 }} 
             onClick={() => setActiveStatusMenu(null)}
           />
           <div style={{
@@ -658,9 +659,9 @@ const Complaints = () => {
             left: `${Math.min(activeStatusMenu.x, window.innerWidth - 170)}px`,
             backgroundColor: 'var(--bg-secondary)',
             borderRadius: '12px',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
             border: '1px solid var(--border-color)',
-            zIndex: 1002,
+            zIndex: 99999,
             padding: '8px',
             minWidth: '160px',
             animation: 'fadeInScale 0.2s ease-out'
@@ -696,7 +697,8 @@ const Complaints = () => {
               </button>
             ))}
           </div>
-        </>
+        </>,
+        document.body
       )}
 
       <style>{`
