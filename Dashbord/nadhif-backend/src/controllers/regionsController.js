@@ -1,6 +1,11 @@
 // src/controllers/regionsController.js
 const poolPromise = require('../db/pool');
 const logsController = require('./logsController');
+const BOUIRA_BOUNDARY = require('../utils/bouiraBoundary');
+
+// Prepare the Bouira boundary as a WKT Polygon (lng lat format)
+const bouiraWktCoords = BOUIRA_BOUNDARY.map(c => `${c[1]} ${c[0]}`).join(', ');
+const bouiraWKT = `POLYGON((${bouiraWktCoords}))`;
 
 exports.getRegions = async (req, res) => {
   const pool = await poolPromise;
@@ -165,14 +170,13 @@ exports.createRegion = async (req, res) => {
   try {
     const { code, name, commune_id, color_hex, population, geometry } = req.body;
     
-    // Nettoyage des données pour éviter les erreurs de type SQL (ex: "" vers NULL)
+    // Nettoyage des données
     const cleanCommuneId = (commune_id === '' || commune_id === null || commune_id === undefined) ? null : parseInt(commune_id, 10);
     const cleanPopulation = (population === '' || population === null || population === undefined) ? null : parseInt(population, 10);
     
     if (Number.isNaN(cleanCommuneId)) throw new Error("ID Commune invalide");
     if (Number.isNaN(cleanPopulation) && cleanPopulation !== null) throw new Error("Population invalide");
 
-    // Validation et traitement de la géométrie (OBLIGATOIRE pour une création)
     let geomString = null;
     
     if (geometry) {
@@ -195,12 +199,25 @@ exports.createRegion = async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO regions (code, name, commune_id, color_hex, population, geom) 
-      VALUES ($1, $2, $3, $4, $5, ${geomString ? 'ST_SetSRID(ST_GeomFromGeoJSON($6), 4326)' : 'NULL'})
+      VALUES ($1, $2, $3, $4, $5, ${geomString ? `
+        ST_GeometryN(
+          ST_CollectionExtract(
+            COALESCE(
+              ST_Difference(
+                ST_Intersection(ST_SetSRID(ST_GeomFromGeoJSON($6), 4326), ST_SetSRID(ST_GeomFromText($7), 4326)),
+                (SELECT ST_Union(geom) FROM regions)
+              ),
+              ST_Intersection(ST_SetSRID(ST_GeomFromGeoJSON($6), 4326), ST_SetSRID(ST_GeomFromText($7), 4326))
+            ),
+            3
+          ),
+          1
+        )
+      ` : 'NULL'})
       RETURNING id, code, name, commune_id, color_hex, population, ST_AsGeoJSON(geom) as geometry`,
-      [code, name, cleanCommuneId, color_hex, cleanPopulation, ...(geomString ? [geomString] : [])]
+      [code, name, cleanCommuneId, color_hex, cleanPopulation, ...(geomString ? [geomString, bouiraWKT] : [])]
     );
     
-    // Log creation
     await logsController.logAction(req.user ? req.user.id : null, 'CREATE', 'REGION', result.rows[0].id, `Création région: ${name}`, req.body, req);
 
     res.json({
@@ -213,7 +230,7 @@ exports.createRegion = async (req, res) => {
   } catch (error) {
     console.error('Erreur createRegion:', error);
     res.status(500).json({ 
-      error: 'Erreur serveur',
+      error: error.message.includes('null value in column "geom"') ? 'La région tracée est complètement en dehors des limites de Bouira.' : 'Erreur serveur',
       message: error.message 
     });
   }
@@ -252,8 +269,21 @@ exports.editRegion = async (req, res) => {
       if (!geomResult.rows[0].valid) {
         return res.status(400).json({ error: 'Géométrie invalide' });
       }
-      fields.push(`geom = ST_SetSRID(ST_GeomFromGeoJSON($${index++}), 4326)`);
-      values.push(geomString);
+      fields.push(`geom = ST_GeometryN(
+        ST_CollectionExtract(
+          COALESCE(
+            ST_Difference(
+              ST_Intersection(ST_SetSRID(ST_GeomFromGeoJSON($${index}), 4326), ST_SetSRID(ST_GeomFromText($${index + 1}), 4326)),
+              (SELECT ST_Union(geom) FROM regions WHERE id != regions.id)
+            ),
+            ST_Intersection(ST_SetSRID(ST_GeomFromGeoJSON($${index}), 4326), ST_SetSRID(ST_GeomFromText($${index + 1}), 4326))
+          ),
+          3
+        ),
+        1
+      )`);
+      index += 2;
+      values.push(geomString, bouiraWKT);
     }
     
     if (fields.length === 0) {
@@ -272,7 +302,6 @@ exports.editRegion = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Région introuvable' });
     }
-    // Log update
     await logsController.logAction(req.user.id, 'UPDATE', 'REGION', id, `Mise à jour région: ${result.rows[0].name}`, { updatedFields: Object.keys(req.body) }, req);
 
     res.json({

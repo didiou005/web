@@ -251,7 +251,7 @@ app.post(
             comment,
             parseFloat(lng),
             parseFloat(lat),
-            1
+            null
           ]
         );
 
