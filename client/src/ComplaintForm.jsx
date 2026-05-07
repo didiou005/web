@@ -460,7 +460,19 @@ function ComplaintForm() {
         console.log("-----------------------");
 
         try {
-            const response = await axios.post('/api/complaints', data);
+                const API_URL =
+                    import.meta.env.VITE_API_URL ||
+                    "https://profound-cat-production.up.railway.app";
+
+                const response = await axios.post(
+                    `${API_URL}/api/complaints`,
+                    data,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    }
+                );
             
             if (response.data.success) {
                 setSuccessData(response.data.data);
