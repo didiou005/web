@@ -67,6 +67,7 @@ const Complaints = () => {
 
   const [selectedComplaintId, setSelectedComplaintId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeStatusMenu, setActiveStatusMenu] = useState(null); // { id, currentStatus, x, y }
   const [sort, setSort] = useState({ field: 'created_at', order: 'desc' });
 
   const loadRegions = async () => {
@@ -200,22 +201,59 @@ const Complaints = () => {
     }
   };
 
+  const handleStatusUpdate = async (id, newStatus) => {
+    try {
+      const res = await complaintsService.updateStatus(id, { status: newStatus });
+      if (res.success) {
+        toast.success('Statut mis à jour');
+        loadComplaints();
+      }
+    } catch (e) {
+      toast.error('Erreur lors de la mise à jour');
+    } finally {
+      setActiveStatusMenu(null);
+    }
+  };
+
   const openDetails = (id) => {
     console.log('Opening details for:', id);
     setSelectedComplaintId(id);
     setIsModalOpen(true);
   };
 
-  const getStatusBadge = (status) => {
-    const styleBase = { padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.025em', display: 'inline-flex', alignItems: 'center', gap: '6px' };
+  const getStatusBadge = (status, id) => {
+    const styleBase = { 
+        padding: '6px 12px', 
+        borderRadius: '8px', 
+        fontSize: '11px', 
+        fontWeight: '700', 
+        textTransform: 'uppercase', 
+        letterSpacing: '0.025em', 
+        display: 'inline-flex', 
+        alignItems: 'center', 
+        gap: '6px',
+        cursor: 'pointer',
+        transition: 'all 0.2s'
+    };
     
+    const handleBadgeClick = (e) => {
+        e.stopPropagation();
+        const rect = e.currentTarget.getBoundingClientRect();
+        setActiveStatusMenu({ 
+            id, 
+            currentStatus: status, 
+            x: rect.left, 
+            y: rect.bottom + window.scrollY 
+        });
+    };
+
     switch(status) {
         case 'resolue': 
-            return <span style={{ ...styleBase, backgroundColor: '#ECFDF5', color: '#059669', border: '1px solid #10B98133' }}><CheckCircle size={14} /> Résolue</span>;
+            return <span onClick={handleBadgeClick} style={{ ...styleBase, backgroundColor: '#ECFDF5', color: '#059669', border: '1px solid #10B98133' }}><CheckCircle size={14} /> Résolue</span>;
         case 'en_cours': 
-            return <span style={{ ...styleBase, backgroundColor: '#EFF6FF', color: '#2563EB', border: '1px solid #3B82F633' }}><Clock size={14} /> En cours</span>;
+            return <span onClick={handleBadgeClick} style={{ ...styleBase, backgroundColor: '#EFF6FF', color: '#2563EB', border: '1px solid #3B82F633' }}><Clock size={14} /> En cours</span>;
         default: 
-            return <span style={{ ...styleBase, backgroundColor: '#FFF7ED', color: '#EA580C', border: '1px solid #F9731633' }}><AlertCircle size={14} /> En attente</span>;
+            return <span onClick={handleBadgeClick} style={{ ...styleBase, backgroundColor: '#FFF7ED', color: '#EA580C', border: '1px solid #F9731633' }}><AlertCircle size={14} /> En attente</span>;
     }
   };
 
@@ -446,7 +484,7 @@ const Complaints = () => {
                                     </div>
                                 </td>
                                 <td style={{ padding: '20px 24px' }}>
-                                    {getStatusBadge(item.status)}
+                                    {getStatusBadge(item.status, item.id)}
                                 </td>
                                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                                     <div style={{ width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--gray-100)', color: 'var(--text-secondary)' }}>
@@ -608,10 +646,67 @@ const Complaints = () => {
         onUpdate={loadComplaints}
       />
 
+      {activeStatusMenu && (
+        <>
+          <div 
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001 }} 
+            onClick={() => setActiveStatusMenu(null)}
+          />
+          <div style={{
+            position: 'absolute',
+            top: `${activeStatusMenu.y + 5}px`,
+            left: `${activeStatusMenu.x}px`,
+            backgroundColor: 'var(--bg-secondary)',
+            borderRadius: '12px',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)',
+            border: '1px solid var(--border-color)',
+            zIndex: 1002,
+            padding: '8px',
+            minWidth: '160px',
+            animation: 'fadeInScale 0.2s ease-out'
+          }}>
+            {[
+              { id: 'en_attente', label: 'En attente', color: '#EA580C', icon: <AlertCircle size={14} /> },
+              { id: 'en_cours', label: 'En cours', color: '#2563EB', icon: <Clock size={14} /> },
+              { id: 'resolue', label: 'Résolue', color: '#059669', icon: <CheckCircle size={14} /> }
+            ].map(s => (
+              <button
+                key={s.id}
+                onClick={() => handleStatusUpdate(activeStatusMenu.id, s.id)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  width: '100%',
+                  padding: '10px 12px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: activeStatusMenu.currentStatus === s.id ? 'var(--gray-100)' : 'transparent',
+                  color: s.color,
+                  fontWeight: '600',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'var(--gray-50)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = activeStatusMenu.currentStatus === s.id ? 'var(--gray-100)' : 'transparent'}
+              >
+                {s.icon} {s.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
       <style>{`
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+        @keyframes fadeInScale {
+          from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
     </div>
