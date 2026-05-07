@@ -125,8 +125,14 @@ const FollowUp = () => {
     setLoading(true);
 
     try {
-      // Appel à l'API via le proxy configuré
-      const response = await fetch(`/api/complaints/${code}`);
+          // Appel à l'API via le proxy configuré
+        const API_URL =
+      import.meta.env.VITE_API_URL ||
+      "https://profound-cat-production.up.railway.app";
+
+    const response = await axios.get(
+      `${API_URL}/api/complaints/${code}`
+    );
 
       // Si la plainte n'existe pas (404)
       if (response.status === 404) {
