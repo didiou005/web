@@ -192,7 +192,13 @@ app.post(
         lat,
         lng,
       } = req.body;
+        const crypto = require('crypto');
 
+        const generatedCode =
+        'TSK-' +
+        crypto.randomBytes(4)
+            .toString('hex')
+            .toUpperCase();
       console.log("📦 Données reçues :", req.body);
 
       /* VALIDATION */
@@ -208,43 +214,44 @@ app.post(
       const cleanComplaintType =
         complaint_type || null;
 
-      /* INSERT COMPLAINT */
 
-      const insertComplaintQuery = `
+
+            const insertComplaintQuery = `
         INSERT INTO complaints (
-          address_text,
-          waste_type,
-          complaint_type,
-          comment,
-          gps_location,
-          commune_id,
-          status
+            code,
+            address_text,   
+            waste_type,
+            complaint_type,
+            comment,
+            gps_location,
+            commune_id,
+            status
         )
         VALUES (
-          $1,
-          $2,
-          $3,
-          $4,
-          ST_SetSRID(
-            ST_MakePoint($5, $6),
-            4326
-          ),
-          NULL,
-          'en_attente'
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            ST_SetSRID(ST_MakePoint($6, $7), 4326),
+            $8,
+            'en_attente'
         )
         RETURNING id, code;
-      `;
+        `;
 
       const complaintResult =
         await client.query(
           insertComplaintQuery,
           [
+            generatedCode,
             adresse,
             waste_type,
             cleanComplaintType,
             comment,
             parseFloat(lng),
             parseFloat(lat),
+            1
           ]
         );
 

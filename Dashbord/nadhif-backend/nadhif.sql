@@ -213,7 +213,22 @@ CREATE TABLE activity_logs (
   user_agent TEXT,
   created_at TIMESTAMP DEFAULT NOW()
 );
-
+INSERT INTO admin_users (
+  email,
+  full_name,
+  password_hash,
+  role,
+  function,
+  is_active
+)
+VALUES (
+  'admin@nadhif.com',
+  'Super Admin',
+  '$2b$10$8U0D5A0v0A8L2uGkN3wN6eP0h1d8N5r4Q7xK1mYcJQ1Y6bN3X2Y5S',
+  'super_admin',
+  'Administrateur Principal',
+  TRUE
+);
 CREATE INDEX idx_logs_admin ON activity_logs(admin_id);
 CREATE INDEX idx_logs_created_at ON activity_logs(created_at);
 CREATE INDEX idx_logs_action ON activity_logs(action_type);
