@@ -26,7 +26,7 @@ const routes = require('./routes');
 
 app.use('/api', routes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // Démarre après initialisation du pool
 (async () => {
