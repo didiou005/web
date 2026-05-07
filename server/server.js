@@ -122,27 +122,35 @@ app.get("/api/communes", async (req, res) => {
     res.json(result.rows);
 
   } catch (error) {
-    console.error("❌ FULL ERROR:");
-console.error(error);
-console.error(error.message);
-console.error(error.stack);
 
-if (error.detail) {
-  console.error("DETAIL:", error.detail);
-}
+  console.error("❌ FULL ERROR:");
+  console.error(error);
 
-if (error.constraint) {
-  console.error("CONSTRAINT:", error.constraint);
-}
+  console.error("MESSAGE:");
+  console.error(error.message);
 
-if (error.code) {
-  console.error("PG CODE:", error.code);
-}
+  console.error("STACK:");
+  console.error(error.stack);
 
-    res.status(500).json({
-      success: false,
-      error: "Erreur serveur récupération communes",
-    });
+  if (error.detail) {
+    console.error("DETAIL:");
+    console.error(error.detail);
+  }
+
+  if (error.constraint) {
+    console.error("CONSTRAINT:");
+    console.error(error.constraint);
+  }
+
+  if (error.code) {
+    console.error("PG CODE:");
+    console.error(error.code);
+  }
+
+  res.status(500).json({
+    success: false,
+    message: "Erreur serveur",
+  });
 
   } finally {
     client.release();
