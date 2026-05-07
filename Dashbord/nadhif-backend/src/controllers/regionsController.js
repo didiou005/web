@@ -307,7 +307,7 @@ exports.editRegion = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Région introuvable' });
     }
-    await logsController.logAction(req.user.id, 'UPDATE', 'REGION', id, `Mise à jour région: ${result.rows[0].name}`, { updatedFields: Object.keys(req.body) }, req);
+    await logsController.logAction(req.user ? req.user.id : null, 'UPDATE', 'REGION', id, `Mise à jour région: ${result.rows[0].name}`, { updatedFields: Object.keys(req.body) }, req);
 
     res.json({
       success: true,
@@ -345,7 +345,7 @@ exports.deleteRegion = async (req, res) => {
       return res.status(404).json({ error: 'Région introuvable' });
     }
     // Log deletion
-    await logsController.logAction(req.user.id, 'DELETE', 'REGION', id, `Suppression région (ID: ${id})`, null, req);
+    await logsController.logAction(req.user ? req.user.id : null, 'DELETE', 'REGION', id, `Suppression région (ID: ${id})`, null, req);
 
     res.json({ success: true });
 
