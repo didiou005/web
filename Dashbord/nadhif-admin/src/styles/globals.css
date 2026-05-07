@@ -827,35 +827,34 @@ input, select, textarea {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  border-radius: 12px;
   font-size: 14px;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   border: none;
 }
 
 .btn-primary {
-  background: var(--green-primary);
+  background: #0f172a;
   color: white;
+  font-weight: 700;
 }
 
 .btn-primary:hover {
-  background: #15803d;
+  background: #1e293b;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-  background: var(--bg-secondary);
-  color: var(--gray-700);
-  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: #475569;
+  font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background: var(--bg-primary);
-  border-color: var(--gray-300);
+  background: #f8fafc;
+  color: #1e293b;
 }
 
 /* Charts Grid Stats */

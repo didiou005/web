@@ -233,7 +233,7 @@ INSERT INTO admin_users (
   is_active
 )
 VALUES (
-  'admin@nadhif.com',
+  'admin@nadhif.dz',
   'Super Admin',
   '$2b$12$qhCYk9rxlU6CN7H8gvZpG.vrjbf2n6A9j8dL8j5cBxl9caFWqdV6a',
   'super_admin',

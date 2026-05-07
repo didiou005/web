@@ -454,7 +454,7 @@ const Employees = () => {
                <button 
                  onClick={() => setDeleteModal(false)}
                  className="cancel-btn"
-                  style={{ flex: 1, justifyContent: 'center', background: '#ffffff', color: '#374151' }}
+                  style={{ flex: 1, justifyContent: 'center', background: '#ffffff', color: '#475569', border: 'none' }}
                >
                  Annuler
                </button>
@@ -554,7 +554,6 @@ const Employees = () => {
                   type="button"
                   onClick={() => setShowModal(false)}
                   className="cancel-btn"
-                   style={{ background: '#ffffff', borderColor: '#e5e7eb', color: '#374151' }}
                 >
                   Annuler
                 </button>
@@ -639,19 +638,18 @@ const Employees = () => {
 
         .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; }
          .cancel-btn {
-          padding: 12px 24px; border-radius: 12px; border: 1px solid #e5e7eb; background: #ffffff;
-          font-weight: 600; color: #374151; cursor: pointer; transition: all 0.2s;
+          padding: 12px 24px; border-radius: 12px; border: none; background: #ffffff;
+          font-weight: 600; color: #475569; cursor: pointer; transition: all 0.2s;
           display: flex; align-items: center; justify-content: center;
         }
-        .cancel-btn:hover { background: #f9fafb; color: #111827; }
+        .cancel-btn:hover { background: #f8fafc; color: #1e293b; }
         
         .submit-btn {
-          padding: 12px 28px; border-radius: 12px; border: none; background: #111827;
+          padding: 12px 28px; border-radius: 12px; border: none; background: #0f172a;
           color: white; font-weight: 700; cursor: pointer; transition: all 0.2s;
-          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
           display: flex; align-items: center; justify-content: center;
         }
-        .submit-btn:hover { background: #1f2937; transform: translateY(-1px); }
+        .submit-btn:hover { background: #1e293b; transform: translateY(-1px); }
         .submit-btn:active { transform: translateY(0); }
       `}</style>
     </div>

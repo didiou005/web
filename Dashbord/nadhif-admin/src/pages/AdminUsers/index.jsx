@@ -529,8 +529,8 @@ const AdminUsers = () => {
               </div>
 
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
-                <button type="button" onClick={() => setShowForm(false)} style={{ padding: '12px 24px', background: '#ffffff', color: '#374151', border: '1px solid #e5e7eb', borderRadius: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s' }}>Annuler</button>
-                <button type="submit" style={{ padding: '12px 28px', background: '#111827', color: 'white', border: 'none', borderRadius: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', transition: 'all 0.2s' }}>{editMode ? 'Enregistrer' : 'Créer'}</button>
+                <button type="button" onClick={() => setShowForm(false)} style={{ padding: '12px 24px', background: '#ffffff', color: '#475569', border: 'none', borderRadius: '12px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s' }}>Annuler</button>
+                <button type="submit" style={{ padding: '12px 28px', background: '#0f172a', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s' }}>{editMode ? 'Enregistrer' : 'Créer'}</button>
               </div>
             </form>
           </div>
@@ -560,7 +560,7 @@ const AdminUsers = () => {
               </button>
               <button 
                 onClick={() => { setShowDeleteModal(false); setAdminToDelete(null); }}
-                style={{ padding: '12px 24px', borderRadius: '12px', background: '#ffffff', color: '#374151', border: '1px solid #e5e7eb', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
+                style={{ padding: '12px 24px', borderRadius: '12px', background: '#ffffff', color: '#475569', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
               >
                 Annuler
               </button>

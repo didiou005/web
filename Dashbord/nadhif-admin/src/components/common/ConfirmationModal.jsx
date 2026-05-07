@@ -133,15 +133,15 @@ const ConfirmationModal = ({
               flex: 1,
               padding: '14px',
               borderRadius: '12px',
-              background: 'transparent',
-              color: 'var(--text-primary)',
-              border: '1px solid var(--border-color)',
+              background: '#ffffff',
+              color: '#475569',
+              border: 'none',
               fontWeight: '600',
               cursor: 'pointer',
               fontSize: '15px',
               transition: 'background 0.2s'
             }}
-            onMouseOver={(e) => e.target.style.background = 'var(--bg-primary)'}
+            onMouseOver={(e) => e.target.style.background = '#f8fafc'}
             onMouseOut={(e) => e.target.style.background = 'transparent'}
           >
             {cancelText}

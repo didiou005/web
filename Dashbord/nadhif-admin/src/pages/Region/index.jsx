@@ -672,17 +672,17 @@ const RegionPage = () => {
 
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
               <button 
-                onClick={saveRegion}
-                disabled={loading}
-                style={{ padding: '12px 28px', borderRadius: '12px', background: '#111827', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
-              >
-                {loading ? 'Traitement...' : editingRegion ? 'Mettre à jour' : 'Créer la zone'}
-              </button>
-              <button 
                 onClick={() => { setShowModal(false); setEditingRegion(null); }}
-                style={{ padding: '12px 24px', borderRadius: '12px', background: 'white', color: '#6b7280', border: '1px solid #e5e7eb', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
+                style={{ padding: '12px 24px', borderRadius: '12px', background: '#ffffff', color: '#475569', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
               >
                 Annuler
+              </button>
+              <button 
+                onClick={saveRegion}
+                disabled={loading}
+                style={{ padding: '12px 28px', borderRadius: '12px', background: '#0f172a', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
+              >
+                {loading ? 'Traitement...' : editingRegion ? 'Mettre à jour' : 'Créer la zone'}
               </button>
             </div>
           </div>

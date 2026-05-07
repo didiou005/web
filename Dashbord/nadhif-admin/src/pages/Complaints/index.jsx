@@ -569,9 +569,9 @@ const Complaints = () => {
               <button 
                 onClick={() => setShowExportModal(false)}
                 disabled={isExporting}
-                style={{ padding: '12px 20px', borderRadius: '12px', border: '1px solid var(--border-color)', backgroundColor: 'transparent', color: 'var(--text-primary)', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s', opacity: isExporting ? 0.5 : 1 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-50)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                style={{ padding: '12px 24px', borderRadius: '12px', border: 'none', backgroundColor: '#ffffff', color: '#475569', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s', opacity: isExporting ? 0.5 : 1 }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f8fafc'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#ffffff'}
               >
                 Annuler
               </button>
@@ -579,21 +579,20 @@ const Complaints = () => {
                 onClick={confirmExport}
                 disabled={isExporting}
                 style={{ 
-                  padding: '12px 24px', 
+                  padding: '12px 28px', 
                   borderRadius: '12px', 
                   border: 'none', 
-                  background: isExporting ? '#94a3b8' : 'linear-gradient(135deg, var(--green-primary), #15803d)', 
+                  background: isExporting ? '#94a3b8' : '#0f172a', 
                   color: 'white', 
-                  fontWeight: '600', 
+                  fontWeight: '700', 
                   cursor: isExporting ? 'not-allowed' : 'pointer', 
                   display: 'flex', 
                   alignItems: 'center', 
                   gap: '8px',
-                  boxShadow: '0 4px 12px rgba(22, 163, 74, 0.2)',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1e293b'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0f172a'}
               >
                 <Download size={18} /> Exporter
               </button>
