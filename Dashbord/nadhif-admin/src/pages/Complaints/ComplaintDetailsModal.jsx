@@ -92,6 +92,14 @@ const ComplaintDetailsModal = ({ isOpen, onClose, complaintId, onUpdate }) => {
     }
   };
 
+  const handleCopyCode = () => {
+    const code = details?.code || complaintId?.split('-')[0];
+    if (code) {
+      navigator.clipboard.writeText(code);
+      toast.success(`Code ${code} copié !`);
+    }
+  };
+
   if (!isOpen) return null;
 
   const styles = {
@@ -173,7 +181,13 @@ const ComplaintDetailsModal = ({ isOpen, onClose, complaintId, onUpdate }) => {
           <div>
             <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.025em' }}>Détails du Signalement</h2>
             <div style={{ fontSize: '14px', color: 'var(--text-secondary)', margin: '8px 0 0 0', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                <span style={{ fontWeight: '800', color: 'var(--green-primary)', backgroundColor: 'var(--bg-primary)', padding: '2px 8px', borderRadius: '6px' }}>#{details?.code || complaintId?.split('-')[0]}</span>
+                <span 
+                  onClick={handleCopyCode}
+                  style={{ fontWeight: '800', color: 'var(--green-primary)', backgroundColor: 'var(--bg-primary)', padding: '2px 8px', borderRadius: '6px', cursor: 'pointer' }}
+                  title="Cliquez pour copier le code"
+                >
+                  #{details?.code || complaintId?.split('-')[0]}
+                </span>
                 {details && (
                     <>
                         <span style={{ color: 'var(--border-color)' }}>|</span>
