@@ -106,7 +106,17 @@ const upload = multer({
       `📡 Réception fichier : ${file.originalname}`
     );
 
-    if (file.mimetype.startsWith("image/")) {
+   console.log("MIME TYPE:", file.mimetype);
+
+    const allowedMimeTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/webp",
+      "application/octet-stream"
+    ];
+
+    if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(new Error("Seules les images sont autorisées"));
