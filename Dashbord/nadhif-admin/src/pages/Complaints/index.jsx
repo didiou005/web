@@ -216,6 +216,14 @@ const Complaints = () => {
     }
   };
 
+  const handleCopyCode = (e, code) => {
+    e.stopPropagation();
+    if (code && code !== '---') {
+      navigator.clipboard.writeText(code);
+      toast.success(`Code ${code} copié !`);
+    }
+  };
+
   const openDetails = (id) => {
     console.log('Opening details for:', id);
     setSelectedComplaintId(id);
@@ -467,7 +475,13 @@ const Complaints = () => {
                                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'}
                             >
                                 <td style={{ padding: '20px 24px' }}>
-                                    <div style={{ fontWeight: '700', color: 'var(--text-primary)', marginBottom: '2px' }}>{item.code || '---'}</div>
+                                    <div 
+                                      onClick={(e) => handleCopyCode(e, item.code)}
+                                      style={{ fontWeight: '700', color: 'var(--text-primary)', marginBottom: '2px', cursor: 'pointer' }}
+                                      title="Cliquez pour copier le code"
+                                    >
+                                      {item.code || '---'}
+                                    </div>
                                     <div style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500' }}>{new Date(item.created_at).toLocaleDateString()} {new Date(item.created_at).toLocaleTimeString().slice(0,5)}</div>
                                 </td>
                                 <td style={{ padding: '20px 24px' }}>
