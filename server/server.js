@@ -287,7 +287,11 @@ app.post(
 
         for (const file of req.files) {
           const fileUrl =
-            "/uploads/" + file.filename;
+          req.protocol +
+          "://" +
+          req.get("host") +
+          "/uploads/" +
+          file.filename;
 
           await client.query(
             insertPhotoQuery,
