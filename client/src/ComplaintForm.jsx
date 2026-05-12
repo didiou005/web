@@ -885,7 +885,7 @@ function ComplaintForm() {
                             <div className="form-group">
                                 <label>{t.form.step3.label}</label>
                                 <div className="file-upload-area">
-                                    <input type="file" onChange={handleFileChange} multiple accept="image/*" className="file-input" />
+                                    <input type="file" onChange={handleFileChange} multiple accept="image/*,.heic,.heif" className="file-input" />
                                     <div className="upload-content">
                                         <p>{t.form.step3.drop}</p>
                                     </div>

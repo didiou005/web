@@ -113,10 +113,15 @@ const upload = multer({
       "image/jpg",
       "image/png",
       "image/webp",
+      "image/heic",
+      "image/heif",
       "application/octet-stream"
     ];
 
-    if (allowedMimeTypes.includes(file.mimetype)) {
+    const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"];
+    const fileExt = path.extname(file.originalname).toLowerCase();
+
+    if (allowedMimeTypes.includes(file.mimetype) || allowedExtensions.includes(fileExt)) {
       cb(null, true);
     } else {
       cb(new Error("Seules les images sont autorisées"));
